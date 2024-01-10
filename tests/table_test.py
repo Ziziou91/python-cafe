@@ -1,7 +1,7 @@
 """Testing for functions in src/table.py"""
-from src.table import create_line, create_cell
+from src.table import create_line, create_cell, draw_user
 
-# Testing for create_line function
+# Testing create_line function
 def test_create_line_returns_string():
     """ensures that create_line returns a string"""
     assert isinstance(create_line(), str)
@@ -14,7 +14,24 @@ def test_create_line_returns_default_string():
     default = "|      Item      |      Price     |      Stock     |   Stock Value  |"
     assert create_line() == default
 
-# Testing for create_cell function
-def test_create_line_returns_cell():
+# Testing create_cell function
+def test_create_cell_returns_string():
     """ensures that create_cell returns a string"""
     assert isinstance(create_cell('test', 10), str)
+
+
+# Testing draw_user function
+def test_draw_user_returns_string():
+    """ensures that create_cell returns a string"""
+    assert isinstance(draw_user('owner'), str)
+    assert isinstance(draw_user('customer'), str)
+
+def test_draw_user_returns_expected_value():
+    """ensures that create_cell returns a string"""
+    expected_owner_str = f"{'-'*28}\n|{' '*26}|\n|{' '*11}Owner{' '*10}|\n|{' '*26}|\n{'-'*28}"
+    expected_customer_str = f"{'-'*28}\n|{' '*26}|\n|{' '*9}Customer{' '*9}|\n|{' '*26}|\n{'-'*28}"
+    print("owner" in draw_user(expected_owner_str))
+    # assert "owner" in draw_user(expected_owner_str)
+    # assert "customer" in draw_user(expected_customer_str)
+    assert  draw_user("customer") == expected_customer_str
+    assert  draw_user("owner") == expected_owner_str

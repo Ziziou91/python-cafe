@@ -23,3 +23,10 @@ def create_line(item:str="Item", price:float="Price", stock:int="Stock") -> str:
     stock_cell = create_cell(stock, 8)
     stock_value = create_cell(calc_stock_value(price, stock), 8)
     return f"|{item_cell}|{price_cell}|{stock_cell}|{stock_value}|"
+
+def draw_user(user:str):
+    """draws a box to confirm if the user is using the app as either 'owner' or 'customer'"""
+    if user == "owner":
+        return f"{'-'*28}\n|{' '*26}|\n|{' '*11}Owner{' '*10}|\n|{' '*26}|\n{'-'*28}"
+    elif user == "customer":
+        return f"{'-'*28}\n|{' '*26}|\n|{' '*9}Customer{' '*9}|\n|{' '*26}|\n{'-'*28}"
