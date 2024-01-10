@@ -27,6 +27,6 @@ def create_line(item:str="Item", price:float="Price", stock:int="Stock") -> str:
 def draw_user(user:str):
     """draws a box to confirm if the user is using the app as either 'owner' or 'customer'"""
     if user == "owner":
-        return f"{'-'*28}\n|{' '*26}|\n|{' '*11}Owner{' '*10}|\n|{' '*26}|\n{'-'*28}"
+        return f"{'-'*24}\n|{' '*22}|\n|{' '*9}Owner{' '*8}|\n|{' '*22}|\n{'-'*24}"
     elif user == "customer":
-        return f"{'-'*28}\n|{' '*26}|\n|{' '*9}Customer{' '*9}|\n|{' '*26}|\n{'-'*28}"
+        return f"{'-'*24}\n|{' '*22}|\n|{' '*7}Customer{' '*7}|\n|{' '*22}|\n{'-'*24}"

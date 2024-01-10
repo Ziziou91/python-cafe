@@ -28,10 +28,7 @@ def test_draw_user_returns_string():
 
 def test_draw_user_returns_expected_value():
     """ensures that create_cell returns a string"""
-    expected_owner_str = f"{'-'*28}\n|{' '*26}|\n|{' '*11}Owner{' '*10}|\n|{' '*26}|\n{'-'*28}"
-    expected_customer_str = f"{'-'*28}\n|{' '*26}|\n|{' '*9}Customer{' '*9}|\n|{' '*26}|\n{'-'*28}"
-    print("owner" in draw_user(expected_owner_str))
-    # assert "owner" in draw_user(expected_owner_str)
-    # assert "customer" in draw_user(expected_customer_str)
+    expected_owner_str = f"{'-'*24}\n|{' '*22}|\n|{' '*9}Owner{' '*8}|\n|{' '*22}|\n{'-'*24}"
+    expected_customer_str = f"{'-'*24}\n|{' '*22}|\n|{' '*7}Customer{' '*7}|\n|{' '*22}|\n{'-'*24}"
     assert  draw_user("customer") == expected_customer_str
     assert  draw_user("owner") == expected_owner_str
