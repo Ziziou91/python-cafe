@@ -13,13 +13,13 @@ from src.user_input import handle_input
 # help function
 # start with owner functionality
 
-def app():
+def app() -> None:
     """Main function from where other logic is called from"""
     print("""Who is using this app?
         - Owner - view and amend the menu, stock, pricing ect.
         - Customer - Order items from the menu and get a bill when you're done.     
     """)
-    user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ")
+    user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
     print(f"\n{draw_user(user_str)}\n")
     if user_str == "owner":
         owner()
