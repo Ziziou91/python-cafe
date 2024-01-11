@@ -24,9 +24,12 @@ def create_line(item:str="Item", price:float="Price", stock:int="Stock") -> str:
     stock_value = create_cell(calc_stock_value(price, stock), 8)
     return f"|{item_cell}|{price_cell}|{stock_cell}|{stock_value}|"
 
-def draw_user(user:str):
+def draw_title(title_str:str) -> str:
     """draws a box to confirm if the user is using the app as either 'owner' or 'customer'"""
-    if user == "owner":
-        return f"{'-'*24}\n|{' '*22}|\n|{' '*9}Owner{' '*8}|\n|{' '*22}|\n{'-'*24}"
-    elif user == "customer":
-        return f"{'-'*24}\n|{' '*22}|\n|{' '*7}Customer{' '*7}|\n|{' '*22}|\n{'-'*24}"
+    #create dictionary with key/value pairs for for each possible title
+    titles= {
+        "owner" : f"{' '*9}Owner{' '*8}",
+        "customer" : f"{' '*7}Customer{' '*7}",
+        "stock" : f"{' '*9}Stock{' '*8}",
+    }
+    return f"{'-'*24}\n|{' '*22}|\n|{titles[title_str]}|\n|{' '*22}|\n{'-'*24}"

@@ -4,7 +4,6 @@ The app simulates a cafe and the user can interact with it as either:
 - The owner: view current stock level and total value, as well as production cost and value of each dish 
 - A patron: order items from the menu (unless they've run out), tell the staff your finished and get your bill
 """
-from src.table import draw_user
 from src.owner import owner
 from src.user_input import handle_input
 # testing
@@ -20,7 +19,6 @@ def app() -> None:
         - Customer - Order items from the menu and get a bill when you're done.     
     """)
     user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
-    print(f"\n{draw_user(user_str)}\n")
     if user_str == "owner":
         owner()
 
