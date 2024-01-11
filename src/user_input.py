@@ -1,4 +1,4 @@
-
+"""Logic for user inputs across the cafe app. Handles punctiation, capitalisations and plurals."""
 import re
 
 def get_input(prompt: str) -> str:
@@ -13,29 +13,21 @@ def handle_input(prompt: str, called_from: str = "none") -> str:
 
 def validate_input(user_input: str, called_from: str, prompt: str) -> str:
     """Checks the passed user_str is valid. If not, recursively ask the user to input again."""
-    user_input = re.sub(r"[^\w\s]", "", user_input).lower()
+    user_input = re.sub(r"[^\w\s]", "", user_input).lower().removesuffix("s")
     user_input = find_user_input_in_valid_inputs(user_input, called_from, prompt)
     return  user_input
 
 def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt) -> str:
     "Checks the passed user_input exists in a list under the called_from key in valid_inputs"
-    valid_user_input_str = ""
-    for key in valid_inputs[called_from]:
-        if user_input in valid_inputs[called_from][key]:
-            valid_user_input_str = key
     try:
-        if  valid_user_input_str not in valid_inputs[called_from]:
+        if user_input not in valid_inputs[called_from]:
             raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid input! Please try again.{"="*10}\n")
     except ValueError as e:
         print(e)
         return handle_input(prompt, called_from)
     else:
-        return valid_user_input_str
+        return user_input
 
 valid_inputs = {
-    "app" : {
-        "owner" : ["owners", "owner"],
-        "customer" : ["customers", "customer"],
-        "cancel": ["cancel", "cancels"]
-    }
+    "app" : ["owner", "customer", "cancel"]
 }
