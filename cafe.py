@@ -6,6 +6,7 @@ The app simulates a cafe and the user can interact with it as either:
 """
 from src.table import draw_user
 from src.owner import owner
+from src.user_input import handle_input
 # testing
 # put data in it's own file
 # logic to ask if the user is a customer or the restaraunt owner
@@ -18,14 +19,11 @@ def app():
         - Owner - view and amend the menu, stock, pricing ect.
         - Customer - Order items from the menu and get a bill when you're done.     
     """)
-    user_str = get_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ")
+    user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ")
     print(f"\n{draw_user(user_str)}\n")
     if user_str == "owner":
         owner()
 
-def get_input(prompt: str) -> str:
-    """Simple function to return user input."""
-    return input(prompt)
 
 print(f"{'*'*69}")
 print(f"{'='*31}cafe.py{'='*31}")

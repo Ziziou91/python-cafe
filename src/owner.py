@@ -4,6 +4,7 @@ from .user_help import user_help
 
 
 
+
 # Variable to track which part of the app the user is currently in.
 # Allows the app to provide contenxtual support with help and about commands
 state = "main"
