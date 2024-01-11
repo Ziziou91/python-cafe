@@ -18,6 +18,10 @@ def test_validate_input_returns_string():
         ("\"customer!?,.;", "app", "", "customer"),
         ("cancel", "app", "", "cancel"),
         ("\"cancel\"", "app", "", "cancel"),
+        ("help", "owner", "", "help"),
+        ("help.", "owner", "", "help"),
+        ("help!", "owner", "", "help"),
+        ("\"help\"", "owner", "", "help")
     )
 )
 

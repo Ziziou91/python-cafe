@@ -1,13 +1,25 @@
 import sys
+from typing import Callable
+from src.user_input import handle_input
 from data.cafe_data import menu, stock, price
 from .table import create_line, draw_title
 # from .user_help import user_help
 
 # Variable to track which part of the app the user is currently in.
 # Allows the app to provide contenxtual support with help and about commands
-state = "main"
 
-def owner():
+def owner(app: Callable):
+    """top level 'owner' menu in cafe app. 
+    Routes user to desired functionality, or prints additional info in terminal."""
+    owner_functions = {
+        "owner": {
+            "help" : owner_help,
+            "exit": owner_exit,
+            "stock": owner_stock,
+            "back" : app
+        }
+    }   
+    state = "owner"
     print(f"\n{draw_title('owner')}\n")
 
     print("""When using this application as owner, you have the following commands available:
@@ -19,11 +31,14 @@ def owner():
           * back - go back to the previous menu
           * exit - exit the app          
         """)
-    # Requires logic to wait for another input if required
-    while state == "main":
-        usr_input_str = input(" Type your input here: ")
+    # plug in validate_input logic
+    while state == "owner":
+        usr_input_str = handle_input("Type your input here: ", "owner")
         owner_functions["owner"][usr_input_str]()
+        if usr_input_str != "help" and usr_input_str != "about":
+            state = usr_input_str
     
+
 
 def owner_help():
     print("you are in user_help")
@@ -32,6 +47,7 @@ def owner_exit():
     sys.exit()
 
 def owner_stock():
+    # Should only print the context the first time
     print(f"\n{draw_title('stock')}\n")
     print(f"{'-'*69}")
     print(create_line())
@@ -40,13 +56,7 @@ def owner_stock():
         print(create_line(x, price[x], stock[x]))
         print(f"{'-'*69}")
 
-owner_functions = {
-    "owner": {
-        "help" : owner_help,
-        "exit": owner_exit,
-        "stock": owner_stock
-    }
-}
+
 
 
 # view & manage stock

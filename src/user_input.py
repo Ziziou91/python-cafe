@@ -29,5 +29,6 @@ def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt) -
         return user_input
 
 valid_inputs = {
-     "app" : ["owner", "customer", "cancel"]
+     "app" : ["owner", "customer", "cancel"],
+     "owner" : ["help", "exit", "stock", "back"]
 }

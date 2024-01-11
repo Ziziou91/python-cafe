@@ -14,18 +14,17 @@ from src.user_input import handle_input
 
 def app() -> None:
     """Main function from where other logic is called from"""
+    print(f"{'*'*69}")
+    print(f"{'='*31}cafe.py{'='*31}")
+    print(f"{'*'*69}\n")
     print("""Who is using this app?
         - Owner - view and amend the menu, stock, pricing ect.
         - Customer - Order items from the menu and get a bill when you're done.     
     """)
     user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
     if user_str == "owner":
-        owner()
+        owner(app)
 
-
-print(f"{'*'*69}")
-print(f"{'='*31}cafe.py{'='*31}")
-print(f"{'*'*69}\n")
 
 app()
 
