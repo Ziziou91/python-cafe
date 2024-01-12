@@ -1,6 +1,6 @@
 """Testing for user_input functions"""
 import pytest
-from src.user_input import validate_input, find_user_input_in_valid_inputs, create_amend_item_list
+from src.user_input import validate_input, find_user_input_in_valid_inputs, create_amend_item_list, handle_owner_stock_inputs
 
 # --------validate_input tests--------
 def test_validate_input_returns_string():
@@ -96,17 +96,47 @@ def test_find_user_input_in_valid_inputs(input_str, called_from, prompt, expecte
 
 # --------create_amend_item_list tests--------
 def test_create_amend_item_list_returns_list():
-    """ensures that validate_input handles strings with capital letters"""
-    assert isinstance(validate_input("owner", "app", ""), str)
+    """ensures that create_amend_item_list returns a list"""
+    assert isinstance(create_amend_item_list("amend pasta", "app", ""), list)
 
 @pytest.mark.parametrize(
-    ("input_str", "called_from", "prompt", "expected"),
+    ("input_str", "expected"),
     (
-        ("amend list", "app", "", ["amend", "list"]),
-        ("amend pasta", "app", "", ["amend", "pasta"]),
-        ("amend burger", "app", "", ["amend", "burger"]),
+        ("amend pasta", ["amend", "pasta"]),
+        ("amend baked potato", ["amend", "baked potato"]),
+        ("amend chips", ["amend", "chips"]),
     )
 )
-def test_create_amend_item_list_returns_expected(input_str, called_from, prompt, expected):
+def test_create_amend_item_list_returns_expected(input_str, expected):
     """returns input_str when it's found in valid_inputs"""
-    assert create_amend_item_list(input_str, called_from, prompt) == expected
+    assert create_amend_item_list(input_str, "", "") == expected
+
+# --------handle_owner_stock_inputs tests--------
+def test_handle_owner_stock_inputs_returns_list():
+    """ensures that handle_owner_stock_inputs returns a list"""
+    assert isinstance(handle_owner_stock_inputs("amend pasta", "", ""), list)
+
+@pytest.mark.parametrize(
+    ("input_str", "expected"),
+    (
+        ("amend pasta", ['pasta', {'price': 5.0, 'stock': 5}]),
+        ("amend baked potato", ['baked potato', {'price': 4.5, 'stock': 3}]),
+        ("amend chips", ['chips', {'price': 2.5, 'stock': 0}]),
+    )
+)
+def test_handle_owner_stock_inputs_returns_expected(input_str, expected):
+    """returns input_str when it's found in valid_inputs"""
+    assert handle_owner_stock_inputs(input_str, "", "") == expected
+
+@pytest.mark.parametrize(
+    ("input_str", "expected"),
+    (
+        ("AMEND PASTA", ['pasta', {'price': 5.0, 'stock': 5}]),
+        ("AMEND BAKED POTATO", ['baked potato', {'price': 4.5, 'stock': 3}]),
+        ("amend CHIPS", ['chips', {'price': 2.5, 'stock': 0}]),
+    )
+)
+def test_handle_owner_stock_inputs_handles_capitilisation(input_str, expected):
+    """returns input_str when it's found in valid_inputs"""
+    assert handle_owner_stock_inputs(input_str, "", "") == expected
+

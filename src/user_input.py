@@ -34,7 +34,7 @@ def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt: s
     }
     try:
         if user_input not in valid_inputs[called_from]:
-            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid input! Please try again.{"="*10}\n")
+            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid commans! Please try again.{"="*10}\n")
     except ValueError as e:
         print(e)
         return handle_input(prompt, called_from)
@@ -45,11 +45,16 @@ def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt: s
 def handle_owner_stock_inputs(user_str: str, prompt: str, called_from: str) -> list:
     """Handles the owner_stock input"""
     amend_item_list = create_amend_item_list(user_str, prompt, called_from)
-    return [amend_item_list[1], stock[amend_item_list[1]]]
+    try:
+        stock[amend_item_list[1]]
+    except KeyError:
+        print(f"\n{"="*10}ERROR! '{amend_item_list[1]}' cannot be foundin the cafe's stock.{"="*10}\n")
+    else:
+        return [amend_item_list[1], stock[amend_item_list[1]]]
 
 def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list:
     """Ensures the use input is valid splits it into a list"""
-    amend_item_list =  user_str.strip().split(" ", 1)
+    amend_item_list =  user_str.lower().strip().split(" ", 1)
     try:
         if amend_item_list[1] not in stock or amend_item_list[0] != "amend":
             raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid input! Please try again.{"="*10}\n")
@@ -61,7 +66,11 @@ def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list
 
 
 # amend menu item logic 
-def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str):
+def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> list:
+    # create testing for this first
+    # check what type of input
+    if user_str == "exit":
+        return user_str
     user_list =  user_str.strip().split(" ", 1)
     if len(user_list) == 2: 
         if user_list[0] == "price" or user_list[0] == "stock":

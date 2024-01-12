@@ -38,7 +38,7 @@ def owner(app: Callable):
 # What I'm currently working on
 def owner_stock():
     "Prints the current stock and allows the user to amend all properties, such as name, price and stock levels"
-    draw_stock()    
+    draw_stock()
     print("""\nYou can amend any existing product by entering the following command:
 
           amend item
@@ -59,15 +59,14 @@ def amend_item(menu_item):
           * back - go back to the previous menu
           * exit - exit the app          
         """)
-    # check if price or stock is in string
-    # if so, split
-    # check the first value is valid
-    # check the second value is a number
-    # if so, amend the correspodning value
-    # print the new line
-    # need to return the 
     user_str = handle_input("Type your input here: ", "amend_menu")
-    stock[menu_item[0]][user_str[0]] = float(user_str[1]) 
+    if user_str == "exit":
+        sys.exit()
+    # logic to check second part is valid e.g not a string, is int or float ect.
+    if user_str[0] == "price":
+        stock[menu_item[0]][user_str[0]] = float(user_str[1])
+    elif user_str[0] == "stock":
+        stock[menu_item[0]][user_str[0]] = int(user_str[1])
     amend_item(menu_item)
 
 def draw_item(menu_item):
