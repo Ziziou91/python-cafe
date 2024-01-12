@@ -25,3 +25,30 @@ stock = {
         "stock" : 7
     }
 }
+
+owner_print_str = {
+    "main" : """When using this application as owner, you have the following commands available:
+          
+          * stock - let's you view current stock and amend things like price, stock levels ect.
+          * product - allows you to add or remove products
+          * about - get more information abot currently availble functionality
+          * help - get a list of commands
+          * back - go back to the previous menu
+          * exit - exit the app          
+        """,
+    "owner_stock" : """\nYou can amend any existing product by entering the following command:
+
+          amend item
+
+Where 'item' is the name of one of the products listed above. You will then be able to to choose whih property you would like to change.
+    """,
+    "amend_item" : """following commands are available:
+          
+          * price x - where 'x' is the new price
+          * stock x - where 'x' is the stock level
+          * about - get more information abot currently availble functionality
+          * help - get a list of commands
+          * back - go back to the previous menu
+          * exit - exit the app          
+        """
+}

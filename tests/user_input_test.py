@@ -97,7 +97,7 @@ def test_find_user_input_in_valid_inputs(input_str, called_from, prompt, expecte
 # --------create_amend_item_list tests--------
 def test_create_amend_item_list_returns_list():
     """ensures that create_amend_item_list returns a list"""
-    assert isinstance(create_amend_item_list("amend pasta", "app", ""), list)
+    assert isinstance(create_amend_item_list("amend pasta", "", ""), list)
 
 @pytest.mark.parametrize(
     ("input_str", "expected"),

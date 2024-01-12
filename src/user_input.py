@@ -1,5 +1,6 @@
 """Logic for user inputs across the cafe app. Handles punctiation, capitalisations and plurals."""
 import re
+import sys
 from data.cafe_data import stock
 
 
@@ -44,6 +45,8 @@ def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt: s
 # owner_stock logic - currently only handles inputs that start with 'amend'
 def handle_owner_stock_inputs(user_str: str, prompt: str, called_from: str) -> list:
     """Handles the owner_stock input"""
+    if user_str == "exit":
+        sys.exit()
     amend_item_list = create_amend_item_list(user_str, prompt, called_from)
     try:
         stock[amend_item_list[1]]
@@ -56,6 +59,7 @@ def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list
     """Ensures the use input is valid splits it into a list"""
     amend_item_list =  user_str.lower().strip().split(" ", 1)
     try:
+        # IndexError handling
         if amend_item_list[1] not in stock or amend_item_list[0] != "amend":
             raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid input! Please try again.{"="*10}\n")
     except ValueError as e:
@@ -69,7 +73,7 @@ def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list
 def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> list:
     # create testing for this first
     # check what type of input
-    if user_str == "exit":
+    if user_str == "exit" or user_str == "back":
         return user_str
     user_list =  user_str.strip().split(" ", 1)
     if len(user_list) == 2: 
