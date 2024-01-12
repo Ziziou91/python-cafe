@@ -1,19 +1,27 @@
-menu = ["Pasta", "Sandwich", "Baked potato", "Chips", "Coffee", "Tea"]
-
+"""module to store cafe stock """
 stock = {
-    "Pasta" : 5,
-    "Sandwich": 2,
-    "Baked potato": 3,
-    "Chips": 0,
-    "Coffee": 10,
-    "Tea": 7
-}
-
-price = {
-    "Pasta" : 5.00,
-    "Sandwich": 4.50,
-    "Baked potato": 4.50,
-    "Chips": 2.50,
-    "Coffee": 2.00,
-    "Tea": 1.50
+    "pasta" : {
+        "price" : 5.00,
+        "stock" : 5,
+    },
+    "sandwich" : {
+        "price" : 4.50,
+        "stock" : 2
+    },
+    "baked potato" : {
+        "price" : 4.50,
+        "stock" : 3
+    },
+    "chips" : {
+        "price" : 2.50,
+        "stock" : 0
+    },
+    "coffee" : {
+        "price" : 2.00,
+        "stock" : 10
+    },
+    "tea" : {
+        "price" : 1.50,
+        "stock" : 7
+    }
 }

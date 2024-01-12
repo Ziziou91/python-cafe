@@ -6,9 +6,7 @@ The app simulates a cafe and the user can interact with it as either:
 """
 from src.owner import owner
 from src.user_input import handle_input
-# testing
 # put data in it's own file
-# logic to ask if the user is a customer or the restaraunt owner
 # help function
 # start with owner functionality
 
@@ -24,7 +22,6 @@ def app() -> None:
     user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
     if user_str == "owner":
         owner(app)
-
 
 app()
 
