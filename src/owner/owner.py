@@ -1,9 +1,13 @@
-"""module that contains all of the logic for the owner functionality."""
+"""module to handle owner functionality. 
+The user can view and amend stock, as well as add and remove items.
+"""
 import sys
 from typing import Callable
 from src.user_input import handle_input
 from data.cafe_data import stock, owner_print_str
-from .table import create_line, draw_title, draw_stock
+from ..table import create_line, draw_title, draw_stock
+
+# multi-line print statements have been move to the data module and stored in owner_print_str dictionary
 
 def owner(app: Callable):
     """top level 'owner' menu in cafe app. 
@@ -28,28 +32,43 @@ def owner(app: Callable):
             state = usr_input_str
 
 # What I'm currently working on
-def owner_stock():
+def owner_stock() -> None:
     """Prints the current stock and allows the user to amend all properties, such as name, price and stock levels"""
     draw_stock()
     print(owner_print_str["owner_stock"])
     menu_item = handle_input("Type your input here: ", "owner_stock")
     amend_item(menu_item)
  
-def amend_item(menu_item):
+def amend_item(menu_item: str):
+    """Called when the user inputs 'amend `item`' from owner_stock. 
+    Takes subsequent user input and then passes it to handle_amend_item_inputs to be processed."""
     draw_item(menu_item)
     print(owner_print_str["amend_item"])
-    user_str = handle_input("Type your input here: ", "amend_menu")
-    if user_str == "exit":
+    user_input = handle_input("Type your input here: ", "amend_menu")
+    handle_amend_item_inputs(menu_item, user_input)
+    
+
+def handle_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
+    """Takes the user input from 'amend_item' and executes the requested logic.
+    Creates a command_str string to make logic more readable. 
+    """
+    if isinstance(user_input, list):
+        command_str, new_value = user_input[0], user_input[1]
+    else:
+        command_str = user_input
+    if command_str == "exit":
         sys.exit()
-    elif user_str == "back":
+    elif command_str == "back":
         owner_stock()
     #  TODO logic to check second part is valid e.g not a string, is int or float ect.
-    if user_str[0] == "price":
-        stock[menu_item[0]][user_str[0]] = float(user_str[1])
-    elif user_str[0] == "stock":
-        stock[menu_item[0]][user_str[0]] = int(user_str[1])
+    if command_str == "price":
+        print("in price argument")
+        stock[menu_item[0]][command_str] = float(new_value)
+    elif command_str == "stock":
+        stock[menu_item[0]][command_str] = int(new_value)
     amend_item(menu_item)
 
+#can this be replaced with create_line in table?
 def draw_item(menu_item):
     print(f"\n{'-'*69}")
     print(create_line())
