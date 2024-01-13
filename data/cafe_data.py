@@ -50,5 +50,8 @@ Where 'item' is the name of one of the products listed above. You will then be a
           * help - get a list of commands
           * back - go back to the previous menu
           * exit - exit the app          
-        """
+        """,
+    "amend_item_about" : """price x - price can be changed to any number
+    
+    """
 }

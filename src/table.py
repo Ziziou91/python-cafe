@@ -2,7 +2,6 @@
 import math
 from data.cafe_data import stock
 
-
 def calc_stock_value(item_price:float, item_stock:int) -> float:
     """Calculates the total value of stock. If not args then returns default string."""
     if item_price == "Price":
@@ -37,6 +36,7 @@ def draw_title(title_str:str) -> str:
     return f"{'-'*24}\n|{' '*22}|\n|{titles[title_str]}|\n|{' '*22}|\n{'-'*24}"
 
 def draw_stock():
+    """Prints the total current stock for the cafe to the terminal."""
     print(f"\n{draw_title('stock')}\n")
     print("Here's the current stock:\n")
     print(f"{'-'*69}")
@@ -45,3 +45,11 @@ def draw_stock():
     for item, item_props in stock.items():
         print(create_line(item, item_props["price"], item_props["stock"]))
         print(f"{'-'*69}")
+
+def draw_item(menu_item):
+    """Prints the chosen menu item to amend, called in amend_item."""
+    print(f"\n{'-'*69}")
+    print(create_line())
+    print(f"{'-'*69}")
+    print(create_line(menu_item[0], menu_item[1]["price"], menu_item[1]["stock"]))
+    print(f"{'-'*69}\n")

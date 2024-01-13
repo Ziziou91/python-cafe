@@ -5,9 +5,9 @@ import sys
 from typing import Callable
 from src.user_input import handle_input
 from data.cafe_data import stock, owner_print_str
-from ..table import create_line, draw_title, draw_stock
+from ..table import create_line, draw_title, draw_stock, draw_item
 
-# multi-line print statements have been move to the data module and stored in owner_print_str dictionary
+# Multi-line print statements can be found in data module, stored in owner_print_str dictionary.
 
 def owner(app: Callable):
     """top level 'owner' menu in cafe app. 
@@ -31,7 +31,6 @@ def owner(app: Callable):
         if usr_input_str != "help" and usr_input_str != "about":
             state = usr_input_str
 
-# What I'm currently working on
 def owner_stock() -> None:
     """Prints the current stock and allows the user to amend all properties, such as name, price and stock levels"""
     draw_stock()
@@ -40,18 +39,22 @@ def owner_stock() -> None:
     amend_item(menu_item)
  
 def amend_item(menu_item: str):
+    # add default value so it can not print
     """Called when the user inputs 'amend `item`' from owner_stock. 
     Takes subsequent user input and then passes it to handle_amend_item_inputs to be processed."""
     draw_item(menu_item)
     print(owner_print_str["amend_item"])
     user_input = handle_input("Type your input here: ", "amend_menu")
+    # needs a better name
     handle_amend_item_inputs(menu_item, user_input)
-    
+
 
 def handle_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
     """Takes the user input from 'amend_item' and executes the requested logic.
     Creates a command_str string to make logic more readable. 
     """
+    # not passing through values when command isn't price or stock 
+    print(user_input)
     if isinstance(user_input, list):
         command_str, new_value = user_input[0], user_input[1]
     else:
@@ -60,21 +63,38 @@ def handle_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
         sys.exit()
     elif command_str == "back":
         owner_stock()
-    #  TODO logic to check second part is valid e.g not a string, is int or float ect.
-    if command_str == "price":
-        print("in price argument")
-        stock[menu_item[0]][command_str] = float(new_value)
-    elif command_str == "stock":
-        stock[menu_item[0]][command_str] = int(new_value)
+    elif command_str == "help":
+        print(owner_print_str["amend_item"])
+    elif command_str == "about":
+         print(owner_print_str["amend_item_about"])
+    elif command_str == "price" or command_str == "stock":
+        print("user_input", user_input)
+        print("new_value", new_value) 
+        stock[menu_item[0]][command_str] = validate_new_value_type(command_str, new_value, menu_item)
     amend_item(menu_item)
 
-#can this be replaced with create_line in table?
-def draw_item(menu_item):
-    print(f"\n{'-'*69}")
-    print(create_line())
-    print(f"{'-'*69}")
-    print(create_line(menu_item[0], menu_item[1]["price"], menu_item[1]["stock"]))
-    print(f"{'-'*69}\n")
+def validate_new_value_type(command_str: str, new_value: str, menu_item):
+    """ensures new_value type is a float for price, and integer for stock"""
+    if command_str == "price":
+        try:
+            float(new_value)
+            if float(new_value) < 0:
+                raise ValueError
+        except ValueError:
+            print(f"\n{"="*10}ERROR! '{new_value}' should be a positive number! Please try again.{"="*10}\n")
+            return amend_item(menu_item)
+        else:
+            return float(new_value)
+    elif command_str == "stock":
+        try:
+            int(new_value)
+            if int(new_value) < 0:
+                raise ValueError
+        except ValueError:
+            print(f"\n{"="*10}ERROR! '{new_value}' should be a positive integer! Please try again.{"="*10}\n")
+            return amend_item(menu_item)
+        else:
+            return int(new_value)
 
 def owner_product():
     """Will allow the user to add and remove products, amending data accordingly"""

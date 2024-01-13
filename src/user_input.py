@@ -8,7 +8,7 @@ def get_input(prompt: str) -> str:
     """Simple function to return user input."""
     return input(prompt)
 
-def handle_input(prompt: str, called_from: str = "none") -> str:
+def handle_input(prompt: str, called_from: str = "none", no_print = False) -> str:
     """Calls get_input before passing to validate_str and then returns."""
     user_str = get_input(prompt)
     if called_from == "owner_stock":
