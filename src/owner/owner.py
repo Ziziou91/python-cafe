@@ -2,12 +2,17 @@
 The user can view and amend stock, as well as add and remove items.
 """
 import sys
+from re import sub
+from decimal import Decimal
 from typing import Callable
 from src.user_input import handle_input
 from data.cafe_data import stock, owner_print_str
-from ..table import create_line, draw_title, draw_stock, draw_item
-
+from ..table import draw_title, draw_stock, draw_item
 # Multi-line print statements can be found in data module, stored in owner_print_str dictionary.
+# TODO - needs to be able to skip printing enture command list and product
+# TODO - Product
+# TODO - Customer
+
 
 def owner(app: Callable):
     """top level 'owner' menu in cafe app. 
@@ -42,19 +47,18 @@ def amend_item(menu_item: str):
     # add default value so it can not print
     """Called when the user inputs 'amend `item`' from owner_stock. 
     Takes subsequent user input and then passes it to handle_amend_item_inputs to be processed."""
-    draw_item(menu_item)
+    print(draw_item(menu_item))
     print(owner_print_str["amend_item"])
     user_input = handle_input("Type your input here: ", "amend_menu")
-    # needs a better name
-    handle_amend_item_inputs(menu_item, user_input)
+    print("user_input in amend_item", user_input)
+    resolve_amend_item_inputs(menu_item, user_input)
 
 
-def handle_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
+def resolve_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
     """Takes the user input from 'amend_item' and executes the requested logic.
     Creates a command_str string to make logic more readable. 
     """
-    # not passing through values when command isn't price or stock 
-    print(user_input)
+    # TODO not passing through values when command isn't price or stock 
     if isinstance(user_input, list):
         command_str, new_value = user_input[0], user_input[1]
     else:
@@ -64,17 +68,17 @@ def handle_amend_item_inputs(menu_item: str, user_input: str or list) -> None:
     elif command_str == "back":
         owner_stock()
     elif command_str == "help":
-        print(owner_print_str["amend_item"])
+        pass
     elif command_str == "about":
          print(owner_print_str["amend_item_about"])
     elif command_str == "price" or command_str == "stock":
-        print("user_input", user_input)
-        print("new_value", new_value) 
         stock[menu_item[0]][command_str] = validate_new_value_type(command_str, new_value, menu_item)
     amend_item(menu_item)
 
 def validate_new_value_type(command_str: str, new_value: str, menu_item):
     """ensures new_value type is a float for price, and integer for stock"""
+    new_value = Decimal(sub(r'[^\d.]', '', new_value))
+    print("new_value in valideate_new_value_type", new_value)
     if command_str == "price":
         try:
             float(new_value)

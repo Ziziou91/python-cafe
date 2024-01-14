@@ -73,7 +73,8 @@ def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list
 def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> list:
     # create testing for this first
     # check what type of input
-    if user_str == "exit" or user_str == "back":
+    single_inputs = ["back", "help", "exit", "about"] 
+    if user_str in single_inputs:
         return user_str
     user_list =  user_str.strip().split(" ", 1)
     if len(user_list) == 2: 
