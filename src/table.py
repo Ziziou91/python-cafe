@@ -37,7 +37,6 @@ def draw_title(title_str:str) -> str:
 
 def draw_stock():
     """Prints the total current stock for the cafe to the terminal."""
-    print(f"\n{draw_title('stock')}\n")
     print("Here's the current stock:\n")
     print(f"{'-'*69}")
     print(create_line())

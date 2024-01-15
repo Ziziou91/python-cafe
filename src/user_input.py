@@ -1,6 +1,5 @@
 """Logic for user inputs across the cafe app. Handles punctiation, capitalisations and plurals."""
 import re
-import sys
 from data.cafe_data import stock
 
 
@@ -8,7 +7,7 @@ def get_input(prompt: str) -> str:
     """Simple function to return user input."""
     return input(prompt)
 
-def handle_input(prompt: str, called_from: str = "none", no_print = False) -> str:
+def handle_input(prompt: str, called_from: str = "none") -> str:
     """Calls get_input before passing to validate_str and then returns."""
     user_str = get_input(prompt)
     if called_from == "owner_stock":
@@ -42,12 +41,14 @@ def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt: s
     else:
         return user_input
 
-# owner_stock logic - currently only handles inputs that start with 'amend'
 def handle_owner_stock_inputs(user_str: str, prompt: str, called_from: str) -> list:
     """Handles the owner_stock input"""
-    if user_str == "exit":
-        sys.exit()
+    commands = ["help", "exit", "back", "about"]
+    if user_str in commands:
+       return user_str
     amend_item_list = create_amend_item_list(user_str, prompt, called_from)
+    if amend_item_list in commands:
+       return amend_item_list
     try:
         stock[amend_item_list[1]]
     except KeyError:
@@ -59,12 +60,14 @@ def create_amend_item_list(user_str: str, prompt: str, called_from: str) -> list
     """Ensures the use input is valid splits it into a list"""
     amend_item_list =  user_str.lower().strip().split(" ", 1)
     try:
-        # IndexError handling
-        if amend_item_list[1] not in stock or amend_item_list[0] != "amend":
+        # TODO needs to check it's a lst first
+        if  len(amend_item_list) == 1:
+            raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid input! Please try again.{"="*10}\n")
+        elif amend_item_list[1] not in stock or amend_item_list[0] != "amend":
             raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid input! Please try again.{"="*10}\n")
     except ValueError as e:
         print(e)
-        return create_amend_item_list(get_input(prompt), prompt, called_from)
+        return handle_input(prompt, called_from)
     else:
         return amend_item_list
 
@@ -79,9 +82,4 @@ def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> li
     user_list =  user_str.strip().split(" ", 1)
     if len(user_list) == 2: 
         if user_list[0] == "price" or user_list[0] == "stock":
-            # handle_price_stock_input(user_list)
             return user_list
-# if user_list[0] is price or stock
-# - check there is a second item in the list
-# - check it's the right data type
-# - 

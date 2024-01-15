@@ -41,8 +41,17 @@ owner_print_str = {
           amend item
 
 Where 'item' is the name of one of the products listed above. You will then be able to to choose whih property you would like to change.
+
+To view other available commands enter 'help'
     """,
-    "amend_item" : """help - the following commands are available:
+    "owner_stock_help" : """Following commands are available:
+        * amend item - where item is the product you'd like to change the price or stock level of
+        * back - tkes you back to the main owner mey
+        * help - brings up this list of commands
+        * exit - exit the app
+
+    """,
+    "amend_item" : """The following commands are available:
           
           * price x - where 'x' is the new price
           * stock x - where 'x' is the stock level
