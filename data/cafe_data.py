@@ -26,6 +26,18 @@ stock = {
     }
 }
 
+cafe_print_str = {
+    "help" : """Available commands:
+    * owner - loads owner functionaility. Can view current stock, as well as amend, add and remove items.
+    * customer - loads customer functionality. Can order various items off the menu and then request the bill
+    * about - provides a more detailed description of this app.
+    * exit - closes the app.  
+""",
+    "about" : """More detailed description of the app coming soon.
+
+"""
+}
+
 owner_print_str = {
     "main" : """When using this application as owner, you have the following commands available:
           

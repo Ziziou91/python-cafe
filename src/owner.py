@@ -12,7 +12,6 @@ from .table import draw_title, draw_stock, draw_item
 # TODO - Product
 # TODO - Customer
 
-
 def owner(app: Callable):
     """top level 'owner' menu in cafe app. 
     Routes user to desired functionality, or prints additional info in terminal."""
