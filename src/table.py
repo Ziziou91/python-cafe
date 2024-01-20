@@ -32,12 +32,12 @@ def draw_title(title_str:str) -> str:
         "owner" : f"{' '*9}Owner{' '*8}",
         "customer" : f"{' '*7}Customer{' '*7}",
         "stock" : f"{' '*9}Stock{' '*8}",
+        "product" : f"{' '*7}Product{' '*8}",
     }
     return f"{'-'*24}\n|{' '*22}|\n|{titles[title_str]}|\n|{' '*22}|\n{'-'*24}"
 
 def draw_stock():
     """Prints the total current stock for the cafe to the terminal."""
-    print("Here's the current stock:\n")
     print(f"{'-'*69}")
     print(create_line())
     print(f"{'-'*69}")
@@ -45,10 +45,10 @@ def draw_stock():
         print(create_line(item, item_props["price"], item_props["stock"]))
         print(f"{'-'*69}")
 
-def draw_item(menu_item):
+def draw_item(item_name):
     """Prints the chosen menu item to amend, called in amend_item."""
     print(f"\n{'-'*69}")
     print(create_line())
     print(f"{'-'*69}")
-    print(create_line(menu_item[0], menu_item[1]["price"], menu_item[1]["stock"]))
+    print(create_line(item_name, stock[item_name]["price"], stock[item_name]["stock"]))
     print(f"{'-'*69}\n")

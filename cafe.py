@@ -4,7 +4,7 @@ The app simulates a cafe and the user can interact with it as either:
 - The owner: view current stock level and total value, as well as production cost and value of each dish 
 - A patron: order items from the menu (unless they've run out), tell the staff your finished and get your bill
 """
-from src.owner.owner import owner
+from src.owner import owner
 from src.user_input import handle_input
 # put data in it's own file
 # help function

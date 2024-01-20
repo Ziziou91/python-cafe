@@ -66,5 +66,14 @@ To view other available commands enter 'help'
 
     stock x - where x is the new stock
         example: stock 7
-    stock can be changed to any positive number"""
+    stock can be changed to any positive number""",
+    "product" : """\nYou can either add or remove products to the the menu. Choose the required functionality with the following commands:
+
+          add item
+          remove item
+
+Where 'item' is the name of the product you'd like to add/remove. 
+
+To view other available commands enter 'help'
+"""
 }
