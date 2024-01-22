@@ -1,5 +1,7 @@
 """Logic for user inputs across the cafe app. Handles punctiation, capitalisations and plurals."""
 import re
+from re import sub
+from decimal import Decimal
 from data.cafe_data import stock
 
 valid_inputs = {
@@ -17,13 +19,13 @@ def get_input(prompt: str) -> str:
 def handle_input(prompt: str, called_from: str = "none") -> str:
     """Calls get_input before passing to validate_str and then returns."""
     user_str = get_input(prompt)
-    # if called_from == "owner_stock":
-    #     return handle_owner_stock_inputs(user_str, prompt, called_from)
     if called_from == "owner_product"  or called_from == "owner_stock":
         return handle_owner_stock_product_inputs(user_str, prompt, called_from)
     elif called_from == "amend_menu":
         return handle_amend_menu_inputs(user_str, prompt, called_from)
-    else: 
+    elif called_from == "price" or called_from == "stock_count":
+        return validate_num_string(called_from, user_str)
+    else:
         validated_str = validate_input(user_str)
         return validated_str
 
@@ -75,20 +77,9 @@ def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> li
         if user_list[0] == "price" or user_list[0] == "stock":
             return user_list
 
-# def find_user_input_in_valid_inputs(user_input: str, called_from: str, prompt: str) -> str:
-#     "Checks the passed user_input exists in a list under the called_from key in valid_inputs"
-#     valid_inputs = {
-#         "app" : ["owner", "customer", "cancel"],
-#         "owner" : ["help", "exit", "stock", "back", "about", "product"],
-#         "owner_stock" : ["help", "back", "exit", "amend"],
-#         "amend_menu" : ["price", "stock", "help", "about", "back", "exit"],
-#         "owner_product" : ["add", "back", "exit", "help", "about", "remove"]
-#     }
-#     try:
-#         if user_input not in valid_inputs[called_from]:
-#             raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid command! Please try again.{"="*10}\n")
-#     except ValueError as e:
-#         print(e)
-#         return handle_input(prompt, called_from)
-#     else:
-#         return user_input
+def validate_num_string(command_str: str, new_value: str,) -> int or float:
+    new_value = Decimal(sub(r'[^\d.]', '', new_value))
+    if command_str == "price":
+        return float(new_value)
+    elif command_str == "stock_count":
+        return int(new_value)

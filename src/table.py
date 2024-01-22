@@ -27,14 +27,12 @@ def create_line(item:str="Item", price:float="Price", stock:int="Stock") -> str:
 
 def draw_title(title_str:str) -> str:
     """draws a box to confirm if the user is using the app as either 'owner' or 'customer'"""
-    #create dictionary with key/value pairs for for each possible title
-    titles= {
-        "owner" : f"{' '*9}Owner{' '*8}",
-        "customer" : f"{' '*7}Customer{' '*7}",
-        "stock" : f"{' '*9}Stock{' '*8}",
-        "product" : f"{' '*7}Product{' '*8}",
-    }
-    return f"{'-'*24}\n|{' '*22}|\n|{titles[title_str]}|\n|{' '*22}|\n{'-'*24}"
+    box_length = 22
+    space = int((box_length-len(title_str))/2)
+    if len(title_str) % 2:
+        return f"{'-'*24}\n|{' '*22}|\n|{' '*space}{title_str}{' '*(space+1)}|\n|{' '*22}|\n{'-'*24}"
+    else:
+        return f"{'-'*24}\n|{' '*22}|\n|{' '*space}{title_str}{' '*(space)}|\n|{' '*22}|\n{'-'*24}"
 
 def draw_stock():
     """Prints the total current stock for the cafe to the terminal."""

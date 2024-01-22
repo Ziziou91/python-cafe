@@ -23,6 +23,7 @@ def app() -> None:
     user_str = ""
     while user_str != "owner" or "customer":
         user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
+        print(user_str)
         if user_str == "owner":
             owner(app)
         elif user_str == "help" or user_str == "about":

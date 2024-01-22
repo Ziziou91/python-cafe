@@ -6,7 +6,7 @@ import sys
 from typing import Callable
 from decimal import Decimal
 from data.cafe_data import stock, owner_print_str
-from src.user_input import handle_input
+from src.user_input import handle_input, validate_num_string
 from .table import draw_title, draw_stock, draw_item
 # Multi-line print statements can be found in data module, stored in owner_print_str dictionary.
 # TODO - Product
@@ -21,7 +21,7 @@ def owner(app: Callable):
             "stock": [owner_stock, (owner, app)],
             "back" : [app,()],
             "about" : [owner_about,()],
-            "product" : [owner_product,()]
+            "product" : [owner_product,(owner, app)]
     }
     state = "main"
     print(f"\n{draw_title('owner')}\n")
@@ -62,6 +62,7 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
     try:
         if isinstance(user_input, list):
             command_str, new_value = user_input[0], user_input[1]
+            print(command_str, new_value)
         else:
             command_str = user_input
         if command_str == "exit":
@@ -73,7 +74,7 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
         elif command_str == "about":
             print(owner_print_str["amend_item_about"])
         elif command_str == "price" or command_str == "stock":
-            stock[item][command_str] = validate_new_value_type(command_str, new_value, item, owner_stock, app)
+            stock[item][command_str] = validate_num_string(command_str, new_value)
             print(draw_item(item))
         else:
             raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid input! Please try again.{"="*10}\n")
@@ -85,38 +86,47 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
 
 def validate_new_value_type(command_str: str, new_value: str, item: list, owner_stock: Callable, app: Callable) -> int or float:
     """ensures new_value type is a float for price, and integer for stock."""
-    if command_str == "price":
-        try:
-            new_value = Decimal(sub(r'[^\d.]', '', new_value))
+    try:
+        new_value = Decimal(sub(r'[^\d.]', '', new_value))
+        if command_str == "price":
             float(new_value)
             if float(new_value) < 0:
                 raise ValueError
-        except Exception:
-            print(f"\n{"="*10}ERROR! '{new_value}' should be a positive number! Please try again.{"="*10}\n")
-            user_input = handle_input("Type your input here: ", "amend_menu")
-            resolve_amend_item_inputs(item, user_input, owner_stock, app)
-        else:
-            return float(new_value)
-    elif command_str == "stock":
-        try:
-            new_value = Decimal(sub(r'[^\d.]', '', new_value))
+        elif command_str == "stock":
             int(new_value)
             if int(new_value) < 0:
                 raise ValueError
-        except Exception:
-            print(f"\n{"="*10}ERROR! '{new_value}' should be a positive integer! Please try again.{"="*10}\n")
-            user_input = handle_input("Type your input here: ", "amend_menu")
-            resolve_amend_item_inputs(item, user_input, owner_stock, app)
-        else:
+    except Exception:
+        print(f"\n{"="*10}ERROR! '{new_value}' should be a positive number! Please try again.{"="*10}\n")
+        user_input = handle_input("Type your input here: ", "amend_menu")
+        #amend this, should be useable for all numerical values 
+        resolve_amend_item_inputs(item, user_input, owner_stock, app)
+    else:
+        if command_str == "price":
+            return float(new_value)
+        elif command_str == "stock":
             return int(new_value)
+        
 
-def owner_product():
+            
+def owner_product(owner_func, app) -> None:
     """Will allow the user to add and remove products, amending data accordingly"""
     print(f"\n{draw_title('product')}\n")
     draw_stock()
     print(owner_print_str["product"])
     command = handle_input("Type your input here: ", "owner_product")
-    print(command)
+    if command == "back":
+        owner_func(app)
+    elif command == "help":
+        print(owner_print_str["owner_product"])
+    elif command == "exit":
+        sys.exit()
+    elif command[0] == "add":
+        add_product(command[1], owner_product, owner_func, app)
+    elif command[0] == "remove":
+        del stock[command[1]]
+        owner_product(owner_func, app)
+
     # validate the input
     # if relevant, split the input in 2. Otherwise just print or 
     # Add - check it's not alread in the product menu
@@ -125,7 +135,20 @@ def owner_product():
     # warning message if they still have stock
     # redraw stock
 
+def add_product(item_name: str, owner_product_func: Callable, owner_func: Callable, app: callable) -> None:
+    print(f"\n{draw_title(item_name)}\n")
+    price = handle_input("Please enter a price: ", "price")
+    stock_count = handle_input("Please enter the number of items in stock: ", "stock_count")
+    print(f"{item_name} price", price)
+    print(f"{item_name} stock", stock_count)
+    stock[item_name] = {"price": price, "stock": stock_count}
+    print(draw_item(item_name))
+    owner_product_func(owner_func, app)
 
+
+def remove_product(item_name: str):
+    print("in remove_product")
+    print(item_name)
 
 def owner_about():
     print("you are in owner_about")
