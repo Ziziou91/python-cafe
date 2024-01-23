@@ -5,11 +5,11 @@ from decimal import Decimal
 from data.cafe_data import stock
 
 valid_inputs = {
-    "app" : ["owner", "customer", "cancel"],
+    "app" : ["owner", "customer", "help", "about", "exit"],
     "owner" : ["help", "exit", "stock", "back", "about", "product"],
     "owner_stock" : ["help", "back", "exit", "amend"],
     "amend_menu" : ["price", "stock", "help", "about", "back", "exit"],
-    "owner_product" : ["back", "exit", "help", "about", "add", "remove"]
+    "owner_product" : ["back", "exit", "help", "about", "add", "remove"],
 }
 
 def get_input(prompt: str) -> str:
@@ -17,24 +17,43 @@ def get_input(prompt: str) -> str:
     return input(prompt)
 
 def handle_input(prompt: str, called_from: str = "none") -> str:
-    """Calls get_input before passing to validate_str and then returns."""
+    """Calls get_input before passing to appropiate handler function and then returns."""
     user_str = get_input(prompt)
+    if called_from == "app":
+        return validate_app_input(user_str)
     if called_from == "owner_product"  or called_from == "owner_stock":
         return handle_owner_stock_product_inputs(user_str, prompt, called_from)
     elif called_from == "amend_menu":
         return handle_amend_menu_inputs(user_str, prompt, called_from)
     elif called_from == "price" or called_from == "stock_count":
-        return validate_num_string(called_from, user_str)
-    else:
-        validated_str = validate_input(user_str)
-        return validated_str
+        return create_num_string(called_from, user_str)
 
 def validate_input(user_input: str) -> str:
     """Checks the passed user_str is valid. If not, recursively ask the user to input again."""
     user_input = re.sub(r"[^\w\s]", "", user_input).lower().strip()
     return  user_input
 
+def create_num_string(command_str: str, new_value: str,) -> int or float:
+    """Returns a float when the input string is a price. Returns an integer when the input string is a stock count."""
+    new_value = Decimal(sub(r'[^\d.]', '', new_value))
+    if command_str == "price":
+        return float(new_value)
+    elif command_str == "stock_count":
+        return int(new_value)
+    
+
+def validate_app_input(user_input):
+    """Checks if a given input string from app function exists in the valid input dictionary."""
+    try:
+        if user_input not in valid_inputs["app"]:
+            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid command! Please try again.{"="*10}\n")
+    except ValueError as e:
+        print(e)
+    return user_input
+
+
 def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: str):
+    """takes inputs from both product and stock owner functions, validates and then returns"""
     validated_str = validate_input(user_str)
     if validated_str in valid_inputs[called_from]:
             return validated_str
@@ -65,10 +84,10 @@ def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: s
     return input_list
 
 def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> list:
+    """handles inputs from the amend function for any menu item"""
     # create testing for this first
     # check what type of input
-    single_inputs = ["back", "help", "exit", "about"] 
-    print("in handle_amend_menu_inputs")
+    single_inputs = ["back", "help", "exit", "about"]
     if user_str in single_inputs:
         return user_str
     user_list =  user_str.strip().split(" ", 1)
@@ -76,10 +95,3 @@ def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> li
     if len(user_list) == 2: 
         if user_list[0] == "price" or user_list[0] == "stock":
             return user_list
-
-def validate_num_string(command_str: str, new_value: str,) -> int or float:
-    new_value = Decimal(sub(r'[^\d.]', '', new_value))
-    if command_str == "price":
-        return float(new_value)
-    elif command_str == "stock_count":
-        return int(new_value)

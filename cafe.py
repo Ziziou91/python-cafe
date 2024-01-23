@@ -4,12 +4,11 @@ The app simulates a cafe and the user can interact with it as either:
 - The owner: view current stock level and total value, as well as production cost and value of each dish 
 - A patron: order items from the menu (unless they've run out), tell the staff your finished and get your bill
 """
+import sys
 from src.owner import owner
 from src.user_input import handle_input
 from data.cafe_data import cafe_print_str
-# put data in it's own file
-# help function
-# start with owner functionality
+
 
 def app() -> None:
     """Main function from where other logic is called from"""
@@ -23,11 +22,12 @@ def app() -> None:
     user_str = ""
     while user_str != "owner" or "customer":
         user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
-        print(user_str)
         if user_str == "owner":
             owner(app)
         elif user_str == "help" or user_str == "about":
             print(cafe_print_str[user_str])
+        elif user_str == "exit":
+            sys.exit()        
 
 app()
 
