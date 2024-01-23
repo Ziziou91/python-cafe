@@ -24,6 +24,7 @@ def owner(app: Callable):
     while state == "main":
         usr_input_str = handle_input("Type your input here: ", "owner")
         # prints the wrong help string
+        print(usr_input_str)
         while usr_input_str not in owner_functions:
             print(f"\n{"="*10}ERROR! '{usr_input_str}' is not a valid command! Please try again.{"="*10}\n")
             usr_input_str = handle_input("Type your input here: ", "owner")

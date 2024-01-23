@@ -19,8 +19,8 @@ def get_input(prompt: str) -> str:
 def handle_input(prompt: str, called_from: str = "none") -> str:
     """Calls get_input before passing to appropiate handler function and then returns."""
     user_str = get_input(prompt)
-    if called_from == "app":
-        return validate_app_input(user_str)
+    if called_from == "app" or called_from == "owner":
+        return validate_app_input(user_str, called_from)
     if called_from == "owner_product"  or called_from == "owner_stock":
         return handle_owner_stock_product_inputs(user_str, prompt, called_from)
     elif called_from == "amend_menu":
@@ -42,10 +42,10 @@ def create_num_string(command_str: str, new_value: str,) -> int or float:
         return int(new_value)
     
 
-def validate_app_input(user_input):
+def validate_app_input(user_input, called_from):
     """Checks if a given input string from app function exists in the valid input dictionary."""
     try:
-        if user_input not in valid_inputs["app"]:
+        if user_input not in valid_inputs[called_from]:
             raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid command! Please try again.{"="*10}\n")
     except ValueError as e:
         print(e)
