@@ -43,7 +43,7 @@ owner_print_str = {
           
           * stock - let's you view current stock and amend things like price, stock levels ect.
           * product - allows you to add or remove products
-          * about - get more information abot currently availble functionality
+          * about - get more information about currently availble functionality
           * help - get a list of commands
           * back - go back to the previous menu
           * exit - exit the app          
@@ -88,4 +88,30 @@ Where 'item' is the name of the product you'd like to add/remove.
 
 To view other available commands enter 'help'
 """
+}
+
+customer_print_str = {
+    "main" : """When using this application as a customer, you have the following commands available:
+          
+          * menu - prints the cafe menu in the terminal
+          * order item - where item is the name on the menu. If available will ask for quantity. If not will ask you to pick an alternative.
+          * bill - view all of the items you have have ordered so far
+          * pay - prints your bill and the total value of what you have ordered
+          * help - prints this list of command
+          * about - provides more information on how to interact with the app
+          * back - go back to the previous menu
+          * exit - exit the app          
+        """,
+    "help" : """Available commands:
+
+          * menu - prints the cafe menu in the terminal
+          * order item - where item is the name on the menu. If available will ask for quantity. If not will ask you to pick an alternative.
+          * bill - view all of the items you have have ordered so far
+          * pay - prints your bill and the total value of what you have ordered
+          * help - prints this list of command
+          * about - provides more information on how to interact with the app
+          * back - go back to the previous menu
+          * exit - exit the app     
+
+        """
 }

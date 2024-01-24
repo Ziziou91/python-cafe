@@ -7,7 +7,9 @@ from data.cafe_data import stock, owner_print_str
 from src.user_input import handle_input, create_num_string
 from .table import draw_title, draw_stock, draw_item
 
-def owner(app: Callable):
+# error when trying to amend stock. Look into
+
+def owner(app: Callable) -> None:
     """top level 'owner' menu in cafe app. 
     Routes user to desired functionality, or prints additional info in terminal."""
     owner_functions = {
@@ -77,7 +79,7 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
             stock[item][command_str] = create_num_string(command_str, new_value)
             print(draw_item(item))
         else:
-            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid input! Please try again.{"="*10}\n")
+            raise ValueError(f"\n{'='*10}ERROR! '{user_input}' is not not a valid input! Please try again.{'='*10}\n")
     except ValueError as e:
         print(e)
     else:
@@ -112,8 +114,8 @@ def add_product(item_name: str, owner_product_func: Callable, owner_func: Callab
     print(draw_item(item_name))
     owner_product_func(owner_func, app)
 
-def owner_about():
+def owner_about() -> None:
     print("you are in owner_about")
 
-def owner_help():
+def owner_help() -> None:
     print(owner_print_str["owner_stock_help"])

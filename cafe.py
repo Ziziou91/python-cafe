@@ -6,6 +6,7 @@ The app simulates a cafe and the user can interact with it as either:
 """
 import sys
 from src.owner import owner
+from src.customer import customer
 from src.user_input import handle_input
 from data.cafe_data import cafe_print_str
 
@@ -24,6 +25,8 @@ def app() -> None:
         user_str = handle_input("Type 'owner' or 'customer' to select, or 'cancel' to exit: ", "app")
         if user_str == "owner":
             owner(app)
+        elif user_str == "customer":
+            customer(app)
         elif user_str == "help" or user_str == "about":
             print(cafe_print_str[user_str])
         elif user_str == "exit":
