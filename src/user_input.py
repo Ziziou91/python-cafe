@@ -33,7 +33,15 @@ def handle_input(prompt: str, called_from: str = "none") -> str:
             return handle_amend_menu_inputs(user_str, prompt, called_from)
         elif called_from == "customer":
             return handle_customer_inputs(user_str, prompt, called_from)
-
+        elif called_from == "customer_order_count":
+            return handle_customer_order_count(user_str)
+        
+def handle_customer_order_count(user_str):
+    if user_str == "cancel":
+        return user_str
+    else:
+        return create_num_string("stock_count", user_str)
+    
 def validate_input(user_input: str) -> str:
     """Checks the passed user_str is valid. If not, recursively ask the user to input again."""
     user_input = re.sub(r"[^\w\s]", "", user_input).lower().strip()
@@ -47,7 +55,6 @@ def create_num_string(command_str: str, new_value: str,) -> int or float:
     elif command_str == "stock_count":
         return int(new_value)
     
-
 def validate_app_input(user_input, called_from):
     """Checks if a given input string from app function exists in the valid input dictionary."""
     try:
@@ -56,7 +63,6 @@ def validate_app_input(user_input, called_from):
     except ValueError as e:
         print(e)
     return user_input
-
 
 def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: str):
     """takes inputs from both product and stock owner functions, validates and then returns"""
