@@ -3,6 +3,8 @@ import re
 from re import sub
 from decimal import Decimal
 from data.cafe_data import stock
+from src.customer_requests import route_customer_requests
+from src.owner_requests import route_owner_requests
 
 valid_inputs = {
     "app" : ["owner", "customer", "help", "about", "exit"],
@@ -20,27 +22,19 @@ def get_input(prompt: str) -> str:
 def handle_input(prompt: str, called_from: str = "none") -> str:
     """Calls get_input before passing to appropiate handler function and then returns."""
     #seperate into owner and customer functionality
+    customer_requests = ["customer", "customer_order_count"]
+    owner_requests = ["owner", "owner_stock", "owner_product", "amend_menu"]
     user_str = get_input(prompt)
     if called_from == "price" or called_from == "stock_count":
         return create_num_string(called_from, user_str)
     else:
         user_str = validate_input(user_str)
-        if called_from == "app" or called_from == "owner":
-            return validate_app_input(user_str, called_from)
-        elif called_from == "owner_product"  or called_from == "owner_stock":
-            return handle_owner_stock_product_inputs(user_str, prompt, called_from)
-        elif called_from == "amend_menu":
-            return handle_amend_menu_inputs(user_str, prompt, called_from)
-        elif called_from == "customer":
-            return handle_customer_inputs(user_str, prompt, called_from)
-        elif called_from == "customer_order_count":
-            return handle_customer_order_count(user_str)
-        
-def handle_customer_order_count(user_str):
-    if user_str == "cancel":
-        return user_str
-    else:
-        return create_num_string("stock_count", user_str)
+        if called_from == "app":
+            return check_input_in_valid_inputs(user_str, called_from)
+        elif called_from in owner_requests:
+            return route_owner_requests(user_str, prompt, called_from, handle_input)
+        elif called_from in customer_requests:
+            return route_customer_requests(user_str, prompt, called_from, handle_input)
     
 def validate_input(user_input: str) -> str:
     """Checks the passed user_str is valid. If not, recursively ask the user to input again."""
@@ -52,10 +46,10 @@ def create_num_string(command_str: str, new_value: str,) -> int or float:
     new_value = Decimal(sub(r'[^\d.]', '', new_value))
     if command_str == "price":
         return float(new_value)
-    elif command_str == "stock_count":
+    elif command_str == "stock_count" or command_str == "stock":
         return int(new_value)
     
-def validate_app_input(user_input, called_from):
+def check_input_in_valid_inputs(user_input, called_from):
     """Checks if a given input string from app function exists in the valid input dictionary."""
     try:
         if user_input not in valid_inputs[called_from]:
@@ -102,27 +96,6 @@ def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> li
     if user_str in single_inputs:
         return user_str
     user_list =  user_str.strip().split(" ", 1)
-    print(user_list)
     if len(user_list) == 2: 
         if user_list[0] == "price" or user_list[0] == "stock":
             return user_list
-
-
-def handle_customer_inputs(user_str: str, prompt: str, called_from: str):
-    if user_str in valid_inputs[called_from]:
-            return user_str
-    input_list =  user_str.lower().split(" ", 1)
-    try:
-        if len(input_list) != 2 or input_list[0] != "order":
-            raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid command! Please try again.{"="*10}\n")
-    except ValueError as e:
-            print(e)
-            return handle_input(prompt, called_from)
-    item = input_list[1]
-    try:
-        stock[item]
-    except KeyError:
-        print(f"\n{"="*10}ERROR! '{item}' is not not on the menu! Please try again.{"="*10}\n")
-        input_list = handle_input(prompt, called_from)
-    #ask the user 
-    return input_list

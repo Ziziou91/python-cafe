@@ -26,6 +26,15 @@ stock = {
     }
 }
 
+valid_inputs = {
+    "app" : ["owner", "customer", "help", "about", "exit"],
+    "owner" : ["help", "exit", "stock", "back", "about", "product"],
+    "owner_stock" : ["help", "back", "exit", "amend"],
+    "amend_menu" : ["price", "stock", "help", "about", "back", "exit"],
+    "owner_product" : ["back", "exit", "help", "about", "add", "remove"],
+    "customer" : ["menu", "bill", "pay", "help", "about", "back", "exit"]
+}
+
 cafe_print_str = {
     "help" : """Available commands:
     * owner - loads owner functionaility. Can view current stock, as well as amend, add and remove items.

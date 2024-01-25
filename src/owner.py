@@ -53,14 +53,13 @@ def owner_stock(owner_func: Callable, app: Callable) -> None:
     print(draw_item(menu_item[1]))
     print(owner_print_str["amend_item"])
     user_input = handle_input("Type your input here: ", "amend_menu")
+    print(user_input)
     resolve_amend_item_inputs(menu_item[1], user_input, owner_stock, app)
 
 def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: Callable, app:Callable) -> None:
     """Takes the user input from 'amend_item' and executes the requested logic.
     Creates a command_str string to make logic more readable. 
     """
-    print("menu_item in resolve_amend_item_inputs", item)
-    # TODO not passing through values when command isn't price or stock 
     try:
         if isinstance(user_input, list):
             command_str, new_value = user_input[0], user_input[1]
