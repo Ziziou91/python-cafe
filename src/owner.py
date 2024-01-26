@@ -4,10 +4,10 @@ The user can view and amend stock, as well as add and remove items.
 import sys
 from typing import Callable
 from data.cafe_data import stock, owner_print_str
-from src.user_input import handle_input, create_num_string
+from src.user_input import create_num_string
+from .route_request import handle_input
 from .table import draw_title, draw_stock, draw_item
 
-# error when trying to amend stock. Look into
 
 def owner(app: Callable) -> None:
     """top level 'owner' menu in cafe app. 
@@ -37,7 +37,7 @@ def owner(app: Callable) -> None:
 def owner_stock(owner_func: Callable, app: Callable) -> None:
     """Prints the current stock and allows the user to amend all properties, such as name, price and stock levels"""
     print(f"\n{draw_title('stock')}\n")
-    draw_stock()
+    draw_stock(stock)
     print(owner_print_str["owner_stock"])
     menu_item = handle_input("Type your input here: ", "owner_stock")
     while not isinstance(menu_item, list):
@@ -88,7 +88,7 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
 def owner_product(owner_func, app) -> None:
     """Will allow the user to add and remove products, amending data accordingly"""
     print(f"\n{draw_title('product')}\n")
-    draw_stock()
+    draw_stock(stock)
     print(owner_print_str["product"])
     command = handle_input("Type your input here: ", "owner_product")
     if command == "back":

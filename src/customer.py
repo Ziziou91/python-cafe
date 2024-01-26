@@ -1,37 +1,39 @@
 import sys
 from typing import Callable
 from data.cafe_data import stock, customer_print_str
-from src.user_input import handle_input
+from .route_request import handle_input
 from .table import draw_title, draw_stock, draw_item
 
 order = {}
 
 def customer(app: Callable) -> None:
-    """top level 'customer' menu in cafe app. 
-    Routes user to desired functionality, or prints additional info in terminal."""
+    """Top level 'customer' menu in cafe app. 
+    Takes user input, passes to subsequent handles_customer_input and awaits next input."""
     state = "main"
     print(f"\n{draw_title('customer')}\n")
     while state == "main":
         print(customer_print_str["main"])
         usr_input_str = handle_input("Type your input here: ", "customer")
-        handle_customer_input(usr_input_str, app, customer)
+        handle_customer_input(usr_input_str, app)
 
-def handle_customer_input(user_input, app, customer: Callable):
+def handle_customer_input(user_input: str, app: Callable) -> None:
+    """Handles user_input, and calls customer functionality."""
     if user_input == "menu":
-        # don't print stock value
-        # print out of stock instead of 0
-        draw_stock()
+        draw_stock(stock)
     elif user_input == "back":
         app()
     elif user_input == "exit":
         sys.exit()
     elif user_input == "bill":
-        # develop this into a menu
-        print(f"\n{order}\n")
+        draw_stock(order)
+    elif user_input == "pay":
+        total = sum_up_order()
+        print(f"\nYou owe £{total}.'n")
     elif user_input[0] == "order":
-        process_customer_order(user_input[1], app, customer)
+        process_customer_order(user_input[1])
 
-def process_customer_order(item, app, customer: Callable):
+def process_customer_order(item: str) -> None:
+    """Handles order customer orders, checks item is in stock and adds to order dictionary."""
     stock_level = stock[item]["stock"]
     if stock_level > 0:
         draw_item(item)
@@ -42,38 +44,22 @@ def process_customer_order(item, app, customer: Callable):
                 awaiting_amount = False
             elif order_amount <= stock_level:
                 print(f"\n{'-'*10}{order_amount} of {item} has been added to your order{'-'*10}\n")
-                order[item] = {"price" : stock[item]["price"], "order_count" : order_amount}
+                order[item] = {"price" : stock[item]["price"], "stock" : order_amount}
                 # update stock level to remove the ordered items
                 awaiting_amount = False
             elif order_amount > stock_level:
                 print(f"\nSorry we only have {stock_level} left.\n")
                 print("You can either amend your order amount with 'order x', or order something else by entering 'cancel'.")
                 order_amount = handle_input("How many would you like to order: ", "customer_order_count")
-
-            # elif order_amount > stock_level:
-# 
-            #     while order_amount > stock_level and order_amount != "cancel":
-            #         print(f"\nsorry we only have {stock_level} left.")
-            #         print("""here are the following commands available:
-            #             * order x - where x is the amount you'd like to order
-            #             * cancel - go back to the previous page
-            #             """)
-            #         # FIX - needs a value to store it as. Check if it's a number or string
-            #         # if number, set to order_amount, if string check it's cancel.
-            #         order_amount = handle_input("How many would you like to order: ", "stock_count")
-            #     print("order_amount", order_amount, "yay you got out of the while loop")
-            #     if order_amount == "cancel":
-            #         customer()
-
-            # check there is enough in stock to satisfy order. if not, ask again
-            # add amount to order dictionary, update stock
-            # should be able to cancel, thereby getting out of while loop 
     else:
         print(f"sorry we've run out of {item}, please choose something else.")
 
-
-
-def sum_up_order():
-    pass           
+def sum_up_order() -> str:
+    """simple function to sum up total value of items in order dictionary"""
+    # test this works
+    total = 0
+    for item, item_props in order.items():
+        total += item_props["price"] 
+    return total
 
         

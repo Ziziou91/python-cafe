@@ -1,35 +1,28 @@
-from re import sub
-from decimal import Decimal
 from typing import Callable
 from data.cafe_data import valid_inputs, stock
+from .user_input import create_num_string, format_input
 
 def route_customer_requests(user_str: str, prompt: str, called_from: str, handle_input: Callable):
+    """Uses called_from string to call appropiate customer functionality."""
     if called_from == "customer":
         return handle_customer_inputs(user_str, prompt, called_from, handle_input)
     elif called_from == "customer_order_count":
         return handle_customer_order_count(user_str)
 
 
-def handle_customer_order_count(user_str):
+def handle_customer_order_count(user_str: str) -> str or int or float:
     if user_str == "cancel":
         return user_str
     else:
         return create_num_string("stock_count", user_str)
-    
-def create_num_string(command_str: str, new_value: str,) -> int or float:
-    """Returns a float when the input string is a price. Returns an integer when the input string is a stock count."""
-    new_value = Decimal(sub(r'[^\d.]', '', new_value))
-    if command_str == "price":
-        return float(new_value)
-    elif command_str == "stock_count":
-        return int(new_value)
 
-def handle_customer_inputs(user_str: str, prompt: str, called_from: str, handle_input):
+def handle_customer_inputs(user_str: str, prompt: str, called_from: str, handle_input) -> list:
     if user_str in valid_inputs[called_from]:
             return user_str
     input_list =  user_str.lower().split(" ", 1)
+    command = format_input(input_list[0])
     try:
-        if len(input_list) != 2 or input_list[0] != "order":
+        if len(input_list) != 2 or command != "order":
             raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid command! Please try again.{"="*10}\n")
     except ValueError as e:
             print(e)

@@ -34,12 +34,12 @@ def draw_title(title_str:str) -> str:
     else:
         return f"{'-'*24}\n|{' '*22}|\n|{' '*space}{title_str}{' '*(space)}|\n|{' '*22}|\n{'-'*24}"
 
-def draw_stock():
+def draw_stock(food):
     """Prints the total current stock for the cafe to the terminal."""
     print(f"{'-'*69}")
     print(create_line())
     print(f"{'-'*69}")
-    for item, item_props in stock.items():
+    for item, item_props in food.items():
         print(create_line(item, item_props["price"], item_props["stock"]))
         print(f"{'-'*69}")
 

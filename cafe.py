@@ -7,9 +7,8 @@ The app simulates a cafe and the user can interact with it as either:
 import sys
 from src.owner import owner
 from src.customer import customer
-from src.user_input import handle_input
+from src.route_request import handle_input
 from data.cafe_data import cafe_print_str
-
 
 def app() -> None:
     """Main function from where other logic is called from"""
@@ -30,7 +29,7 @@ def app() -> None:
         elif user_str == "help" or user_str == "about":
             print(cafe_print_str[user_str])
         elif user_str == "exit":
-            sys.exit()        
+            sys.exit()
 
 app()
 

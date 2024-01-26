@@ -1,5 +1,6 @@
 from typing import Callable
 from data.cafe_data import valid_inputs, stock
+from .user_input import format_input
 
 def route_owner_requests(user_str, prompt, called_from, handle_input):
     if called_from == "owner":
@@ -14,14 +15,15 @@ def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: s
     if user_str in valid_inputs[called_from]:
             return user_str
     input_list =  user_str.lower().split(" ", 1)
+    command = format_input(input_list[0])
     try:
-        if len(input_list) != 2 or input_list[0] not in valid_inputs[called_from]:
+        if len(input_list) != 2 or command not in valid_inputs[called_from]:
             raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid command! Please try again.{"="*10}\n")
     except ValueError as e:
             print(e)
             return handle_input(prompt, called_from)
-    product_add = called_from == "owner_product" and input_list[0] == 'add'
-    product_remove = called_from == "owner_product" and input_list[0] == 'remove'
+    product_add = called_from == "owner_product" and command == 'add'
+    product_remove = called_from == "owner_product" and command == 'remove'
     amend_stock = called_from == "owner_stock"
     item = input_list[1]
     if product_remove or amend_stock:
@@ -46,10 +48,13 @@ def handle_amend_menu_inputs(user_str: str, prompt: str, called_from: str) -> li
     single_inputs = ["back", "help", "exit", "about"]
     if user_str in single_inputs:
         return user_str
-    user_list =  user_str.strip().split(" ", 1)
-    if len(user_list) == 2: 
-        if user_list[0] == "price" or user_list[0] == "stock":
-            return user_list
+    input_list =  user_str.lower().split(" ", 1)
+    command = format_input(input_list[0])
+    if len(input_list) == 2: 
+        if command == "price" or command == "stock":
+            return input_list
+    # TODO - does this need an else statement
+        
 
 def check_input_in_valid_inputs(user_input, called_from):
     """Checks if a given input string from app function exists in the valid input dictionary."""
