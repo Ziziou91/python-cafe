@@ -1,8 +1,9 @@
 import sys
 from typing import Callable
-from data.cafe_data import stock, customer_print_str
+from data.cafe_data import stock, customer_print_str, valid_inputs, owner_print_str, cafe_print_str
 from .route_request import handle_input
 from .table import draw_title, draw_stock, draw_item
+from .user_input import update_cafe_data
 
 order = {}
 
@@ -54,6 +55,7 @@ def process_customer_order(item: str) -> None:
                 print(f"\n{'-'*10}{order_amount} of {item} has been added to your order{'-'*10}\n")
                 order[item] = {"price" : stock[item]["price"], "stock" : order_amount}
                 stock[item]["stock"] -= order_amount
+                update_cafe_data()
                 awaiting_amount = False
             elif order_amount > stock_level:
                 print(f"\nSorry we only have {stock_level} left.\n")

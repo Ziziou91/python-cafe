@@ -4,7 +4,7 @@ The user can view and amend stock, as well as add and remove items.
 import sys
 from typing import Callable
 from data.cafe_data import stock, owner_print_str
-from src.user_input import create_num_string
+from src.user_input import create_num_string, update_cafe_data
 from .route_request import handle_input
 from .table import draw_title, draw_stock, draw_item
 
@@ -77,6 +77,7 @@ def resolve_amend_item_inputs(item: str, user_input: str or list, owner_stock: C
         elif command_str == "price" or command_str == "stock":
             stock[item][command_str] = create_num_string(command_str, new_value)
             print(draw_item(item))
+            update_cafe_data()
         else:
             raise ValueError(f"\n{'='*10}ERROR! '{user_input}' is not not a valid input! Please try again.{'='*10}\n")
     except ValueError as e:
