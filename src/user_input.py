@@ -26,7 +26,7 @@ def check_input_in_valid_inputs(user_input: str, called_from: str) -> str:
     formatted_input = format_input(user_input)
     try:
         if formatted_input not in valid_inputs[called_from]:
-            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid command! Please try again.{"="*10}\n")
+            raise ValueError(f"\n{'='*10}ERROR! '{user_input}' is not not a valid command! Please try again.{'='*10}\n")
     except ValueError as e:
         print(e)
     return formatted_input

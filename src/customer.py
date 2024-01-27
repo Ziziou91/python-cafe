@@ -6,6 +6,14 @@ from .table import draw_title, draw_stock, draw_item
 
 order = {}
 
+def sum_up_order() -> str:
+    """simple function to sum up total value of items in order dictionary"""
+    # test this works
+    total = 0
+    for item, item_props in order.items():
+        total += item_props["price"]
+    return total
+
 def customer(app: Callable) -> None:
     """Top level 'customer' menu in cafe app. 
     Takes user input, passes to subsequent handles_customer_input and awaits next input."""
@@ -45,7 +53,7 @@ def process_customer_order(item: str) -> None:
             elif order_amount <= stock_level:
                 print(f"\n{'-'*10}{order_amount} of {item} has been added to your order{'-'*10}\n")
                 order[item] = {"price" : stock[item]["price"], "stock" : order_amount}
-                # update stock level to remove the ordered items
+                stock[item]["stock"] -= order_amount
                 awaiting_amount = False
             elif order_amount > stock_level:
                 print(f"\nSorry we only have {stock_level} left.\n")
@@ -53,13 +61,3 @@ def process_customer_order(item: str) -> None:
                 order_amount = handle_input("How many would you like to order: ", "customer_order_count")
     else:
         print(f"sorry we've run out of {item}, please choose something else.")
-
-def sum_up_order() -> str:
-    """simple function to sum up total value of items in order dictionary"""
-    # test this works
-    total = 0
-    for item, item_props in order.items():
-        total += item_props["price"] 
-    return total
-
-        

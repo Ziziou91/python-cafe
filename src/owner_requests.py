@@ -18,7 +18,7 @@ def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: s
     command = format_input(input_list[0])
     try:
         if len(input_list) != 2 or command not in valid_inputs[called_from]:
-            raise ValueError(f"\n{"="*10}ERROR! '{user_str}' is not not a valid command! Please try again.{"="*10}\n")
+            raise ValueError(f"\n{'='*10}ERROR! '{user_str}' is not not a valid command! Please try again.{'='*10}\n")
     except ValueError as e:
             print(e)
             return handle_input(prompt, called_from)
@@ -30,7 +30,7 @@ def handle_owner_stock_product_inputs(user_str: str, prompt: str, called_from: s
         try:
             stock[item]
         except KeyError:
-            print(f"\n{"="*10}ERROR! '{item}' is not not on the menu! Please try again.{"="*10}\n")
+            print(f"\n{'='*10}ERROR! '{item}' is not not on the menu! Please try again.{'='*10}\n")
             input_list = handle_input(prompt, called_from)
     if product_add:
         try:
@@ -60,7 +60,7 @@ def check_input_in_valid_inputs(user_input, called_from):
     """Checks if a given input string from app function exists in the valid input dictionary."""
     try:
         if user_input not in valid_inputs[called_from]:
-            raise ValueError(f"\n{"="*10}ERROR! '{user_input}' is not not a valid command! Please try again.{"="*10}\n")
+            raise ValueError(f"\n{'='*10}ERROR! '{user_input}' is not not a valid command! Please try again.{'='*10}\n")
     except ValueError as e:
         print(e)
     return user_input
