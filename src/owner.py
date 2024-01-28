@@ -59,24 +59,31 @@ def owner_stock(app: Callable) -> None:
     handle_owner_stock_input(app)
 
 def handle_owner_stock_input(app: Callable):
-    print("IN HANDLE_OWNER_STOCK_INPUT")
+    """Requests user input in owner stock meny, handles and passes to 'handle_owner_stock_amend_item'."""
     user_str = get_input("Type your input here: ")
-    user_input = handle_owner_stock_product_inputs(user_str, "Type your input here: ", "owner_stock")
-    if user_input == "help":
+    if user_str == "help":
         print(owner_print_str["owner_stock_help"])
-    elif user_input == "about":
+    elif user_str == "about":
         print("owner_stock about")
-    elif user_input == "back":
+    elif user_str == "back":
         owner(app)
-    elif user_input == "exit":
+    elif user_str == "exit":
         order.clear()
         update_cafe_data()
         sys.exit()
     else:
-        item = user_input[1]
-        draw_item(item)
-        print(owner_print_str["amend_item"])
-        handle_owner_stock_amend_item(item, app)
+        input_list =  user_str.lower().split(" ", 1)
+        command, item = input_list[0], input_list[1]
+        try:
+            if item not in stock or command != "amend":
+                raise ValueError(f"\n{'='*10}ERROR! '{user_str}' is not not a valid command! Please try again.{'='*10}\n")
+        except ValueError as e:
+            print(e)
+            return handle_owner_stock_input(app)
+        else:
+            draw_item(item)
+            print(owner_print_str["amend_item"])
+            handle_owner_stock_amend_item(item, app)
     handle_owner_stock_input(app)
 
 def handle_owner_stock_amend_item(item: str, app: Callable) -> None:
