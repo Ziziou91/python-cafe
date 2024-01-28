@@ -2,7 +2,7 @@
 import re
 from re import sub
 from decimal import Decimal
-from data.cafe_data import stock, customer_print_str, valid_inputs, owner_print_str, cafe_print_str
+from data.cafe_data import valid_inputs
 
 def get_input(prompt: str) -> str:
     """Simple function to return user input."""
@@ -30,7 +30,3 @@ def check_input_in_valid_inputs(user_input: str, called_from: str) -> str:
     except ValueError as e:
         print(e)
     return formatted_input
-
-def update_cafe_data() -> None:
-    with open("data/cafe_data.py", "w", encoding="UTF-8") as f:
-        f.write(f'"""module to store cafe stock"""\n\nstock={stock}\n\nvalid_inputs={valid_inputs}\n\ncafe_print_str={cafe_print_str}\n\nowner_print_str={owner_print_str}\n\ncustomer_print_str={customer_print_str}')
