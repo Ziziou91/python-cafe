@@ -15,6 +15,7 @@ def format_input(user_input: str) -> str:
 
 def create_num_string(command_str: str, new_value: str,) -> int or float:
     """Returns a float when the input string is a price. Returns an integer when the input string is a stock count."""
+    
     new_value = Decimal(sub(r'[^\d.]', '', new_value))
     if command_str == "price":
         return float(new_value)

@@ -1,6 +1,6 @@
 from .user_input import get_input, create_num_string, check_input_in_valid_inputs
 from .owner_requests import route_owner_requests
-from .customer_requests import route_customer_requests
+# from .customer_requests import route_customer_requests
 
 def handle_input(prompt: str, called_from: str = "none") -> str:
     """Calls get_input before passing to appropiate handler function and then returns."""
@@ -16,4 +16,5 @@ def handle_input(prompt: str, called_from: str = "none") -> str:
         elif called_from in owner_requests:
             return route_owner_requests(user_str, prompt, called_from, handle_input)
         elif called_from in customer_requests:
-            return route_customer_requests(user_str, prompt, called_from, handle_input)
+            # return route_customer_requests(user_str, prompt, called_from, handle_input)
+            pass

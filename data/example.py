@@ -1,5 +1,5 @@
 """module to store cafe stock """
-stock={'pasta': {'price': 5.0, 'stock': 8}, 'sandwich': {'price': 4.5, 'stock': 2}, 'baked potato': {'price': 4.5, 'stock': 3}, 'chips': {'price': 2.5, 'stock': 0}, 'coffee': {'price': 2.0, 'stock': 10}, 'tea': {'price': 1.5, 'stock': 7}}
+stock={'pasta': {'price': 5.0, 'stock': 1}, 'sandwich': {'price': 4.5, 'stock': 2}, 'baked potato': {'price': 4.5, 'stock': 3}, 'chips': {'price': 2.5, 'stock': 0}, 'coffee': {'price': 2.0, 'stock': 10}, 'tea': {'price': 1.5, 'stock': 7}}
 
 valid_inputs={'app': ['owner', 'customer', 'help', 'about', 'exit'], 'owner': ['help', 'exit', 'stock', 'back', 'about', 'product'], 'owner_stock': ['help', 'back', 'exit', 'amend'], 'amend_menu': ['price', 'stock', 'help', 'about', 'back', 'exit'], 'owner_product': ['back', 'exit', 'help', 'about', 'add', 'remove'], 'customer': ['menu', 'bill', 'pay', 'help', 'about', 'back', 'exit']}
 
@@ -9,4 +9,4 @@ owner_print_str={'main': "When using this application as owner, you have the fol
 
 customer_print_str={'main': 'When using this application as a customer, you have the following commands available:\n          \n          * menu - prints the cafe menu in the terminal\n          * order item - where item is the name on the menu. If available will ask for quantity. If not will ask you to pick an alternative.\n          * bill - view all of the items you have have ordered so far\n          * pay - prints your bill and the total value of what you have ordered\n          * help - prints this list of command\n          * about - provides more information on how to interact with the app\n          * back - go back to the previous menu\n          * exit - exit the app          \n        ', 'help': 'Available commands:\n\n          * menu - prints the cafe menu in the terminal\n          * order item - where item is the name on the menu. If available will ask for quantity. If not will ask you to pick an alternative.\n          * bill - view all of the items you have have ordered so far\n          * pay - prints your bill and the total value of what you have ordered\n          * help - prints this list of command\n          * about - provides more information on how to interact with the app\n          * back - go back to the previous menu\n          * exit - exit the app     \n\n        '}
 
-order={'pasta': {'price': 5.0, 'stock': 2}}
+order={'pasta': {'price': 5.0, 'stock': 4}} 
