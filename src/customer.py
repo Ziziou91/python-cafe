@@ -23,6 +23,8 @@ def handle_customer_input(user_input: str, app: Callable) -> None:
     elif user_input == "back":
         app()
     elif user_input == "exit":
+        order.clear()
+        update_cafe_data()
         sys.exit()
     elif user_input == "bill":
         draw_stock(order)
@@ -35,7 +37,6 @@ def handle_customer_input(user_input: str, app: Callable) -> None:
 def validate_customer_inputs(prompt: str) -> list:
     """takes inputs for customer menu, validates and then passes back to customer."""
     user_str = get_input(prompt)
-    print("user_str", user_str)
     if user_str in valid_inputs["customer"]:
             return user_str
     input_list =  user_str.lower().split(" ", 1)
@@ -74,6 +75,8 @@ def handle_order_quantity(item: str, stock_level: int) -> None:
         if user_str == "cancel":
             return user_str
         elif user_str == "exit":
+            order.clear()
+            update_cafe_data()
             sys.exit()
         else:
             try:
