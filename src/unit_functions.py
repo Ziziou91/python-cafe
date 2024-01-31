@@ -2,7 +2,7 @@ import re
 from data.cafe_data import order
 from data.cafe_data import stock, customer_print_str, valid_inputs, order, cafe_print_str, owner_print_str
 
-def sum_up_order() -> str:
+def sum_up_order() -> float:
     """simple function to sum up total value of items in order dictionary"""
     # test this works
     total = 0

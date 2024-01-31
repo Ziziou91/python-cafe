@@ -23,12 +23,12 @@ def test_create_cell_returns_string():
 # Testing draw_title function
 def test_draw_title_returns_string():
     """ensures that create_cell returns a string"""
-    assert isinstance(draw_title('owner'), str)
-    assert isinstance(draw_title('customer'), str)
+    assert isinstance(draw_title('Owner'), str)
+    assert isinstance(draw_title('Customer'), str)
 
 def test_draw_title_returns_expected_value():
     """ensures that create_cell returns a string"""
-    expected_owner_str = f"{'-'*24}\n|{' '*22}|\n|{' '*9}Owner{' '*8}|\n|{' '*22}|\n{'-'*24}"
+    expected_owner_str = f"{'-'*24}\n|{' '*22}|\n|{' '*8}Owner{' '*9}|\n|{' '*22}|\n{'-'*24}"
     expected_customer_str = f"{'-'*24}\n|{' '*22}|\n|{' '*7}Customer{' '*7}|\n|{' '*22}|\n{'-'*24}"
-    assert  draw_title("customer") == expected_customer_str
-    assert  draw_title("owner") == expected_owner_str
+    assert  draw_title("Customer") == expected_customer_str
+    assert  draw_title("Owner") == expected_owner_str
